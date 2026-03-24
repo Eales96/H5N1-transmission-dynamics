@@ -1,11 +1,10 @@
 # H5N1-transmission-dynamics
 Modelling of H5N1 transmission dynamics on dairy farms
 
-## Funding 
 This work was funded by the Livestock Biosecurity Fund - Cattle Compensation fund.
 This code supports the work done under the agreement CCF 25.19: "Preparing for potential H5N1 incursions into Victorian dairy cattle".
 
-## Reproducing the analyses
+# Reproducing the analyses
 This code reproduces the analyses in the technical report produced under milestone 2 of the grant agreement. To reproduce the analyses all 'simulation' scripts should be run, and then all 'figure' scripts:
 
 ### Example simulation trajectories
@@ -28,7 +27,7 @@ To reproduce all analyses of reactive cohorting:
 2) Run the R script 'figures_reactive.R'. This will then reproduce all relevant figures in the technical report.
 
 
-## Underlyinh code
+# Underlying code
 All functions used in performing the analyses are in the 'R' subdirectory.
 The main functions for running simulations is the R scipt 'simulation.R'.
 The R scipt 'simulation.R' simulates an outbreak on a dairy farm allowing the user to set as input:
