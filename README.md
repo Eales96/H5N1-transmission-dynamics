@@ -2,7 +2,7 @@
 Modelling of H5N1 transmission dynamics on dairy farms
 
 This work was funded by the Livestock Biosecurity Fund - Cattle Compensation fund.
-This code supports the work done under the agreement CCF 25.19: "Preparing for potential H5N1 incursions into Victorian dairy cattle".
+This code supports the work done under the agreement CCF 25.19: "Preparing for potential H5N1 incursions into Victorian dairy cattle". There are preliminary testing and intervention guidelines based on the analysis in the file 'Guidelines Document.pdf'.
 
 # Reproducing the analyses
 This code reproduces the analyses in the technical report produced under milestone 2 of the grant agreement. To reproduce the analyses all 'simulation' scripts should be run, and then all 'figure' scripts:
