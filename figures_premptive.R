@@ -1,4 +1,4 @@
-setwd("C:/Users/EALESO/OneDrive - The University of Melbourne/Projects/H5N1 cow transmission")
+# setwd("C:/Users/EALESO/OneDrive - The University of Melbourne/Projects/H5N1 cow transmission")
 
 ################################################################################
 # Load R packages
@@ -24,26 +24,24 @@ df6 <- read_parquet('simulations/sims_dt_cleaningFINAL.parquet')
 df1$param_set <- factor(df1$param_set)
 levels(df1$param_set) <- c("Cow\u2013cow\ntransmission only",
                            "Mixed mode\ntransmission",
-                           "Cow\u2013milking unit\ntransmission only")
+                           "Cow\u2013milking stall\u2013cow\ntransmission only")
 
 df2$param_set <- factor(df2$param_set)
 levels(df2$param_set) <- c("Cow\u2013cow\ntransmission only",
                            "Mixed mode\ntransmission",
-                           "Cow\u2013milking unit\ntransmission only")
+                           "Cow\u2013milking stall\u2013cow\ntransmission only")
 
 df3$param_set <- factor(df3$param_set)
 levels(df3$param_set) <- c("Mixed mode\ntransmission",
-                           "Cow\u2013milking unit\ntransmission only")
+                           "Cow\u2013milking stall\u2013cow\ntransmission only")
 
 
 df4$param_set <- factor(df4$param_set)
 levels(df4$param_set) <- c("Cow\u2013cow\ntransmission only")
 
 df5$param_set <- factor(df5$param_set)
-levels(df5$param_set) <- c("Cow\u2013milking unit\ntransmission only")
+levels(df5$param_set) <- c("Cow\u2013milking stall\u2013cow\ntransmission only")
 
-df6$param_set <- factor(df6$param_set)
-levels(df5$param_set) <- c("Cow\u2013milking unit\ntransmission only")
 
 #######################################################################################################################
 # Code to reformat and plot df1
@@ -76,11 +74,11 @@ for(i in unique(df1_total$n_cohorts)){
 
 df1_summary$param_set <- factor(df1_summary$param_set, levels=c("Cow\u2013cow\ntransmission only",
                                                                 "Mixed mode\ntransmission",
-                                                                "Cow\u2013milking unit\ntransmission only"))
+                                                                "Cow\u2013milking stall\u2013cow\ntransmission only"))
 
 # Example trajectories
 df1_example <- df1[df1$sim==1 & df1$n_cohorts==5,]
-#12
+
 
 # Get final size for all paraem sets
 df1_final <- df1[df1$time==999999999 & df1$n_cohorts==5,]
@@ -112,7 +110,8 @@ plt1a <- ggplot(df1_total, aes(x=factor(n_cohorts), y=N_R, color=param_set ))+
   theme_bw(base_size = 14)+
   theme(legend.position=c(0.2,0.15),#legend.position=c(0.105,0.3),
         legend.background = element_rect(color="black"),
-        panel.grid.major.x = element_blank())+
+        panel.grid.major.x = element_blank(),
+        legend.key.size = unit(0.5, "cm"))+
   guides(fill="none")
 
 
@@ -168,8 +167,7 @@ plt1c <- plt1c + theme(plot.tag.position = c(0.01, 0.97),
 plt1bc <- plt1b+plt1c+plot_layout(nrow=2) 
 plot_grid(plt1a, plt1bc, rel_widths = c(1,0.9))
 
-ggsave('figures/n_cohortsFINAL.png', width=11, height=8)
-#ggsave('figures/n_cohorts_presentation.png', width=11, height=8)
+ggsave('figures/n_cohortsFINAL.png', width=12, height=8)
 
 #######################################################################################################################
 # Code to reformat and plot df2
@@ -202,13 +200,13 @@ for(i in unique(df2_total$seed_cohorts)){
 
 df2_summary$param_set <- factor(df2_summary$param_set, levels=c("Cow\u2013cow\ntransmission only",
                                                                 "Mixed mode\ntransmission",
-                                                                "Cow\u2013milking unit\ntransmission only"))
+                                                                "Cow\u2013milking stall\u2013cow\ntransmission only"))
 
 # Example trajectories
-df2_example <- df2[df2$sim==17 & df2$param_set=="Cow\u2013milking unit\ntransmission only",]
+df2_example <- df2[df2$sim==17 & df2$param_set=="Cow\u2013milking stall\u2013cow\ntransmission only",]
 
 # Get final size for all paraem sets
-df2_final <- df2[df2$time==999999999 & df2$param_set=="Cow\u2013milking unit\ntransmission only",]
+df2_final <- df2[df2$time==999999999 & df2$param_set=="Cow\u2013milking stall\u2013cow\ntransmission only",]
 df2_final$new_sim = -99
 for(i in unique(df2_final$seed_cohorts)){
   
@@ -227,7 +225,7 @@ plt2a <- ggplot(df2_total, aes(x=factor(seed_cohorts), y=N_R, color=param_set))+
   ylab("Total infections")+
   xlab("Cohort infections are introduced to")+
   scale_y_continuous(limits=c(0,1000), expand=expansion(0))+
-  #geom_point(data=df2_total[df2_total$sim==17 &df2_total$param_set=="Cow\u2013milking unit\ntransmission only",], #!!!!!!!!!!!!!!!!!!!!!
+  #geom_point(data=df2_total[df2_total$sim==17 &df2_total$param_set=="Cow\u2013milking stall\u2013cow\ntransmission only",], #!!!!!!!!!!!!!!!!!!!!!
   #           shape=4, stroke=2,size=2,
   #           position=position_jitterdodge(dodge.width = 1))+
   #coord_cartesian(ylim=c(0,1000))+
@@ -236,7 +234,8 @@ plt2a <- ggplot(df2_total, aes(x=factor(seed_cohorts), y=N_R, color=param_set))+
   theme_bw(base_size = 14)+
   theme(legend.position=c(0.7,0.8),
         legend.background = element_rect(color="black"),
-        panel.grid.major.x = element_blank())+
+        panel.grid.major.x = element_blank(),
+        legend.key.size = unit(1, "cm"))+
   guides(fill="none")
 
 
@@ -308,6 +307,7 @@ plt2bc <- plt2b+ plt2c +plot_layout(nrow=2, heights=c(1,1))
 plot_grid(plt2a,plt2bc, rel_widths = c(1,1.2))
 ggsave('figures/seed_cohortsFINAL.png', width=11, height=7)
 
+
 #######################################################################################################################
 # Code to reformat and plot df3 
 # Sensitivity analyses assuming enhanced cleaning once per milking period
@@ -345,10 +345,10 @@ for(i in unique(df3_total$cleaning_before)){
 }
 
 df3_summary$param_set <- factor(df3_summary$param_set, levels=c("Mixed mode\ntransmission",
-                                                                "Cow\u2013milking unit\ntransmission only"))
+                                                                "Cow\u2013milking stall\u2013cow\ntransmission only"))
 
 
-df3_final <- df3[df3$time==999999999 & df3$param_set%in%c("Cow\u2013milking unit\ntransmission only","Mixed mode\ntransmission"),]
+df3_final <- df3[df3$time==999999999 & df3$param_set%in%c("Cow\u2013milking stall\u2013cow\ntransmission only","Mixed mode\ntransmission"),]
 df3_final$new_sim = -99
 for(i in unique(df3_final$cleaning_before)){
   
@@ -379,7 +379,7 @@ for(i in unique(df3_final$cleaning_before)){
 df3_total$cleaning_before <- factor(df3_total$cleaning_before)
 levels(df3_total$cleaning_before) <- c("5\u20131","1\u20132","2\u20133","3\u20134","4\u20135")
 
-df3_noclean <- df1_total[df1_total$param_set%in%c("Cow\u2013milking unit\ntransmission only", "Mixed mode\ntransmission") &df1_total$n_cohorts==5,]
+df3_noclean <- df1_total[df1_total$param_set%in%c("Cow\u2013milking stall\u2013cow\ntransmission only", "Mixed mode\ntransmission") &df1_total$n_cohorts==5,]
 df3_noclean$cleaning_before <- "No cleaning"
 df3_noclean$cleaning_effect <- "No effect"
 
@@ -391,7 +391,7 @@ df3_summary$cleaning_before <- factor(df3_summary$cleaning_before)
 levels(df3_summary$cleaning_before) <- c("5\u20131","1\u20132","2\u20133","3\u20134","4\u20135")
 
 
-df3_noclean_summary <- df1_summary[df1_summary$param_set%in%c("Cow\u2013milking unit\ntransmission only", "Mixed mode\ntransmission") &df1_summary$n_cohorts==5,]
+df3_noclean_summary <- df1_summary[df1_summary$param_set%in%c("Cow\u2013milking stall\u2013cow\ntransmission only", "Mixed mode\ntransmission") &df1_summary$n_cohorts==5,]
 df3_noclean_summary$cleaning_before <- "No cleaning"
 df3_noclean_summary$cleaning_effect <- "No effect"
 
@@ -473,9 +473,9 @@ panelA <- ggplot(df3_final[df3_final$ID!="Total" & df3_final$param_set=="Mixed m
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank())
 
-panelB <- ggplot(df3_final[df3_final$ID!="Total" & df3_final$param_set=="Cow\u2013milking unit\ntransmission only",], aes(x=new_sim,y=N_R, fill=ID, group=new_sim))+
+panelB <- ggplot(df3_final[df3_final$ID!="Total" & df3_final$param_set=="Cow\u2013milking stall\u2013cow\ntransmission only",], aes(x=new_sim,y=N_R, fill=ID, group=new_sim))+
   geom_col(position = "fill")+
-  geom_point(data=df3_final[df3_final$ID=="Total" & df3_final$param_set=="Cow\u2013milking unit\ntransmission only",], aes(x=new_sim, y=N_R/1000),fill="black", size=0.1)+
+  geom_point(data=df3_final[df3_final$ID=="Total" & df3_final$param_set=="Cow\u2013milking stall\u2013cow\ntransmission only",], aes(x=new_sim, y=N_R/1000),fill="black", size=0.1)+
   scale_fill_brewer("Milking cohort",palette = "Set1")+
   xlab("Simulations (ordered by final epidemic size)")+
   ylab("Proportion of infections")+
@@ -491,7 +491,7 @@ panelB <- ggplot(df3_final[df3_final$ID!="Total" & df3_final$param_set=="Cow\u20
 
 panelA <- panelA +ggtitle("Mixed mode transmission")+
   theme(plot.title=element_text(hjust=0.5))
-panelB <- panelB +ggtitle("Cow\u2013milking unit transmission only")+
+panelB <- panelB +ggtitle("Cow\u2013milking stall\u2013cow transmission only")+
   theme(plot.title=element_text(hjust=0.5))
 panelA +panelB + plot_layout(nrow=2)
 
@@ -513,7 +513,6 @@ ggsave('figures/sens_cleaning2FINAL.png', width=10, height=12)
 df4_total <- df4[df4$time==max(df4$time) & df4$ID=="Total",]
 
 
-#!!!!!!!!!!!!!!!!!
 df4_summary <- data.frame()
 for(i in unique(df4_total$between_cohort)){
   for(j in unique(df4_total$param_set)){
@@ -694,8 +693,8 @@ ggplot(df5_total, aes(x=factor(seed_cohorts), y=N_R, color=decay_time))+
   ylab("Total infections")+
   xlab("Cohort infections are introduced to")+
   scale_y_continuous(limits=c(0,1000), expand=expansion(0))+
-  scale_color_brewer("Half life of\nmilking unit\ninfectiousness",palette="Dark2")+
-  scale_fill_brewer("Half life of\nmilking unit\ninfectiousness",palette="Dark2")+
+  scale_color_brewer("Half life of\nmilking stall\ninfectiousness",palette="Dark2")+
+  scale_fill_brewer("Half life of\nmilking stall\ninfectiousness",palette="Dark2")+
   coord_cartesian(ylim=c(0,1000))+
   theme_bw(base_size = 14)+
   theme(legend.position="right",#legend.position=c(0.105,0.3),
@@ -724,7 +723,7 @@ ggplot(df5_final[df5_final$ID!="Total",], aes(x=new_sim,y=N_R, fill=ID, group=ne
                      sec.axis = sec_axis(~., name="Total infections",breaks=c(0,0.250,0.5,0.75,1.),labels=c(0,250,500,750,1000)))+
   facet_grid(cols=vars(decay_time), rows=vars(seed_cohorts))+
   theme_bw(base_size=14)+
-  ggtitle("Half life of milking unit infectiousness")+
+  ggtitle("Half life of milking stall infectiousness")+
   theme(strip.background = element_rect(color="black", fill="white"),
         legend.position = "bottom",
         axis.text.x = element_blank(),
@@ -748,7 +747,6 @@ levels(df6$cleaning_effect) <- c("No effect",
 df6_total <- df6[df6$time==max(df6$time) & df6$ID=="Total",]
 
 
-#!!!!!!!!!!!!!!!!!
 df6_summary <- data.frame()
 for(i in unique(df6_total$seed_cohorts)){
   for(j in unique(df6_total$cleaning_effect)){
@@ -795,6 +793,7 @@ df6_summary$cleaning_effect <- factor(df6_summary$cleaning_effect, levels =c("No
 ################################################################################
 # Create cleaning with long decay time
 
+
 ggplot(df6_total, aes(x=factor(seed_cohorts), y=N_R, color=cleaning_effect ))+
   geom_point(position=position_jitterdodge(jitter.width=0.25, dodge.width = 0.5),shape=16, alpha=0.4)+
   geom_crossbar(data=df6_summary, aes(x=factor(seed_cohorts),fill=cleaning_effect, ymax=median, ymin=median, y=median),color="black", position=position_dodge(width = 0.5), width=0.6, size=0.3)+
@@ -806,13 +805,15 @@ ggplot(df6_total, aes(x=factor(seed_cohorts), y=N_R, color=cleaning_effect ))+
   #           shape=4, stroke=2,size=5,
   #           position=position_jitterdodge(dodge.width = 1))+
   coord_cartesian(ylim=c(0,1000))+
-  scale_color_brewer("Effect of cleaning\nmilking units",palette="Dark2")+
-  scale_fill_brewer("Effect of cleaning\nmilking units",palette="Dark2")+
+  scale_color_brewer("Effect of cleaning\nmilking stalls",palette="Dark2")+
+  scale_fill_brewer("Effect of cleaning\nmilking stalls",palette="Dark2")+
   theme_bw(base_size = 14)+
   theme(legend.position=c(0.15,0.2),#legend.position=c(0.105,0.3),
         legend.background = element_rect(color="black"),
         panel.grid.major.x = element_blank())+
-  guides(fill="none")
+  guides(fill="none")+
+  guides(color= guide_legend(byrow=TRUE))+
+  theme(legend.key.spacing.y = unit(0.3, 'cm'))
 
 
 ggsave('figures/seed_cohorts_with_cleaning1FINAL.png', width=11, height=8)
@@ -825,7 +826,7 @@ levels(df6_final$seed_cohorts) <- c("Infections seeded\nin cohort 1",
                                     "Infections seeded\nin cohort 4",
                                     "Infections seeded\nin cohort 5")
 
-ggplot(df6_final[df6_final$ID!="Total"], aes(x=new_sim,y=N_R, fill=ID, group=new_sim))+
+ggplot(df6_final[df6_final$ID!="Total",], aes(x=new_sim,y=N_R, fill=ID, group=new_sim))+
   geom_col(position = "fill")+
   geom_point(data=df6_final[df6_final$ID=="Total",], aes(x=new_sim, y=N_R/1000),fill="black", size=0.1)+
   scale_fill_brewer("Milking cohort",palette = "Set1")+
