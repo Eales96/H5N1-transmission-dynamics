@@ -1,4 +1,4 @@
-setwd("C:/Users/EALESO/OneDrive - The University of Melbourne/Projects/H5N1 cow transmission")
+#setwd("C:/Users/EALESO/OneDrive - The University of Melbourne/Projects/H5N1 cow transmission")
 
 
 # 1. Code for plotting figure of example simulations for the transmission regimes
@@ -173,21 +173,21 @@ event_log5 <- event_log5[order(event_log5$time),]
 # Merge for plotting
 event_log1$param <- "Cow\u2013cow transmission only"
 event_log3$param <- "Mixed mode transmission"
-event_log5$param <- "Cow\u2013milking unit transmission only"
+event_log5$param <- "Cow\u2013milking stall\u2013cow\ntransmission only"
 
 event_log <- rbind(event_log1, event_log3, event_log5)
 event_log$param <- factor(event_log$param, levels = c("Cow\u2013cow transmission only",
                                                       "Mixed mode transmission",
-                                                      "Cow\u2013milking unit transmission only"))
+                                                      "Cow\u2013milking stall\u2013cow\ntransmission only"))
 
 milk_log1$param <- "Cow\u2013cow transmission only"
 milk_log3$param <- "Mixed mode transmission"
-milk_log5$param <- "Cow\u2013milking unit transmission only"
+milk_log5$param <- "Cow\u2013milking stall\u2013cow\ntransmission only"
 
 milk_log <- rbind(milk_log1, milk_log3, milk_log5)
 milk_log$param <- factor(milk_log$param, levels = c("Cow\u2013cow transmission only",
                                                       "Mixed mode transmission",
-                                                      "Cow\u2013milking unit transmission only"))
+                                                      "Cow\u2013milking stall\u2013cow\ntransmission only"))
 
 milk_times <- data.frame(xmin=(6/24)+seq(0,100,0.5),
                          xmax=(6/24)+seq(0,100,0.5)+(20*5/(60*24) ) )
@@ -202,7 +202,9 @@ plt1<-ggplot(event_log)+
   ylab("Infection prevalence")+
   xlab("Time (days)")+
   scale_color_brewer("Transmission regime",palette="Dark2")+
-  annotate("rect", xmin=23, xmax=26,ymin=170,ymax=242, color="black", alpha=0.,linetype="dashed")+
+  #annotate("rect", xmin=23, xmax=26,ymin=170,ymax=242, color="hotpink", alpha=0.,linetype="dashed")+
+  geom_vline(xintercept = 23, linetype="dashed")+
+  geom_vline(xintercept = 26, linetype="dashed")+
   scale_x_continuous(limits=c(0,100),expand=expansion(0))+
   theme_bw(base_size = 14)+
   theme(legend.background = element_rect(color="black"),
@@ -223,7 +225,7 @@ plt2 <- ggplot(event_log[event_log$time>23&event_log$time <26,])+
 
 plt3 <- ggplot(milk_log[milk_log$time>23&milk_log$time <26, ])+
   geom_line(aes(x=time, y=inf_prof/50, color=param))+
-  ylab("Average infectiousness\nof milking units")+
+  ylab("Average infectiousness\nof milking stalls")+
   xlab("Time (days)")+
   scale_x_continuous(limits=c(23,26),expand=expansion(0))+
   scale_color_brewer("Tranmission regime",palette="Dark2")+
